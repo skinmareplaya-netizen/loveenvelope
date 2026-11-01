@@ -1,98 +1,459 @@
-<!doctype html>
+
+<!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#20131e">
-<meta name="description" content="LoveEnvelope — создавай красивые цифровые конверты с письмами, поздравлениями и приглашениями.">
-<title>LoveEnvelope — твои чувства в одном конверте</title>
-<link rel="stylesheet" href="/styles.css"><link rel="stylesheet" href="/styles-extra.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#160b12">
+  <meta name="description" content="Создай красивое романтическое приглашение и отправь любимому человеку уникальную ссылку.">
+  <title>LoveEnvelope — скажи это красиво</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #160b12;
+      --panel: #21111c;
+      --pink: #f2a7bd;
+      --cream: #fff5ee;
+      --muted: #bca6b1;
+      --line: rgba(255,255,255,.12);
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--cream);
+      font-family: "DM Sans", sans-serif;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(ellipse at 78% 15%, rgba(163,54,101,.20), transparent 38%),
+        radial-gradient(ellipse at 10% 70%, rgba(113,34,71,.18), transparent 40%);
+      z-index: -1;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .nav {
+      width: min(1160px, 90%);
+      margin: auto;
+      height: 84px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .logo {
+      font-family: "Playfair Display", serif;
+      font-size: 25px;
+      letter-spacing: -.8px;
+    }
+
+    .logo span { color: var(--pink); }
+
+    .nav-link {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .nav-cta {
+      border: 1px solid rgba(242,167,189,.5);
+      padding: 12px 18px;
+      border-radius: 30px;
+      font-size: 13px;
+      transition: .25s;
+    }
+
+    .nav-cta:hover { background: var(--pink); color: var(--bg); }
+
+    .hero {
+      width: min(1160px, 90%);
+      margin: auto;
+      min-height: 670px;
+      padding: 78px 0 90px;
+      display: grid;
+      grid-template-columns: 1.05fr .95fr;
+      gap: 45px;
+      align-items: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      color: var(--pink);
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 24px;
+      height: 1px;
+      background: var(--pink);
+    }
+
+    h1 {
+      font-family: "Playfair Display", serif;
+      font-size: clamp(46px, 6vw, 78px);
+      line-height: 1.06;
+      letter-spacing: -2px;
+      font-weight: 500;
+      margin: 25px 0;
+    }
+
+    h1 em {
+      color: var(--pink);
+      font-weight: 500;
+    }
+
+    .intro {
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.85;
+      max-width: 450px;
+    }
+
+    .actions {
+      display: flex;
+      gap: 13px;
+      flex-wrap: wrap;
+      margin-top: 32px;
+    }
+
+    .btn {
+      min-height: 52px;
+      padding: 0 24px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 5px;
+      font: inherit;
+      font-size: 13px;
+      font-weight: 700;
+      transition: transform .2s, background .2s;
+    }
+
+    .btn:hover { transform: translateY(-2px); }
+
+    .btn-primary {
+      background: var(--pink);
+      color: #24101b;
+      border: 1px solid var(--pink);
+    }
+
+    .btn-secondary {
+      border: 1px solid var(--line);
+      color: var(--cream);
+    }
+
+    .note {
+      margin-top: 20px;
+      color: #8f7985;
+      font-size: 12px;
+    }
+
+    .visual {
+      min-height: 450px;
+      position: relative;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 48% 48% 8px 8px;
+      background:
+        radial-gradient(ellipse at 50% 45%, rgba(192,91,129,.22), transparent 55%),
+        linear-gradient(145deg, #301626, #1b1019 72%);
+    }
+
+    .orb {
+      position: absolute;
+      width: 310px;
+      height: 310px;
+      border-radius: 50%;
+      border: 1px solid rgba(242,167,189,.17);
+      box-shadow: 0 0 80px rgba(201,86,132,.1), inset 0 0 70px rgba(201,86,132,.08);
+    }
+
+    .orb::before, .orb::after {
+      content: "";
+      position: absolute;
+      inset: 18px;
+      border: 1px solid rgba(242,167,189,.12);
+      border-radius: 50%;
+    }
+
+    .orb::after { inset: 38px; }
+
+    .envelope {
+      position: relative;
+      width: min(300px, 75%);
+      height: 205px;
+      border: 1px solid rgba(255,224,232,.4);
+      border-radius: 5px;
+      background: linear-gradient(145deg, #f3c4cf, #b76c88);
+      box-shadow: 0 25px 80px rgba(0,0,0,.35);
+      transform: rotate(-5deg);
+      animation: float 5s ease-in-out infinite;
+    }
+
+    .envelope::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(145deg, transparent 49.5%, rgba(111,38,66,.23) 50%);
+      clip-path: polygon(0 0, 100% 0, 50% 65%);
+    }
+
+    .envelope::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(35deg, #d994ab, #f4ccd5);
+      clip-path: polygon(0 100%, 0 0, 50% 58%, 100% 0, 100% 100%);
+      opacity: .92;
+    }
+
+    .seal {
+      position: absolute;
+      z-index: 2;
+      left: 50%;
+      top: 56%;
+      transform: translate(-50%, -50%);
+      width: 55px;
+      height: 55px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: #762d4a;
+      border: 1px solid rgba(255,255,255,.35);
+      color: #ffe4ec;
+      font-size: 24px;
+      box-shadow: 0 5px 20px rgba(70,12,37,.3);
+    }
+
+    .floating {
+      position: absolute;
+      color: var(--pink);
+      opacity: .8;
+      animation: float 4s ease-in-out infinite;
+    }
+
+    .heart-one { top: 20%; left: 19%; font-size: 23px; }
+    .heart-two { top: 28%; right: 17%; font-size: 17px; animation-delay: -2s; }
+    .heart-three { bottom: 19%; right: 22%; font-size: 25px; animation-delay: -1s; }
+
+    .visual-caption {
+      position: absolute;
+      bottom: 25px;
+      color: #cbb0bd;
+      font-family: "Playfair Display", serif;
+      font-size: 16px;
+      font-style: italic;
+    }
+
+    @keyframes float {
+      0%, 100% { translate: 0 0; }
+      50% { translate: 0 -10px; }
+    }
+
+    .section {
+      padding: 90px 5%;
+      border-top: 1px solid var(--line);
+    }
+
+    .section-inner { width: min(1060px, 100%); margin: auto; }
+
+    .section-heading { text-align: center; }
+
+    h2 {
+      font: 500 clamp(34px, 4vw, 49px)/1.15 "Playfair Display", serif;
+      margin: 17px 0;
+    }
+
+    .section-heading p {
+      color: var(--muted);
+      line-height: 1.8;
+      max-width: 500px;
+      margin: 0 auto;
+      font-size: 14px;
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      margin-top: 48px;
+    }
+
+    .step {
+      padding: 28px;
+      background: rgba(255,255,255,.025);
+      border: 1px solid var(--line);
+      border-radius: 7px;
+    }
+
+    .step-num {
+      color: var(--pink);
+      font: italic 30px "Playfair Display", serif;
+    }
+
+    .step h3 {
+      font: 500 22px "Playfair Display", serif;
+      margin: 20px 0 10px;
+    }
+
+    .step p {
+      color: var(--muted);
+      line-height: 1.8;
+      font-size: 13px;
+      margin: 0;
+    }
+
+    .final-cta {
+      margin-top: 75px;
+      padding: 55px 25px;
+      text-align: center;
+      background: linear-gradient(135deg, rgba(148,54,91,.19), rgba(255,255,255,.025));
+      border: 1px solid var(--line);
+      border-radius: 8px;
+    }
+
+    .final-cta p {
+      color: var(--muted);
+      margin-bottom: 25px;
+      line-height: 1.7;
+    }
+
+    footer {
+      width: min(1160px, 90%);
+      margin: auto;
+      padding: 25px 0;
+      display: flex;
+      gap: 15px;
+      justify-content: space-between;
+      color: #8f7985;
+      font-size: 12px;
+    }
+
+    @media (max-width: 760px) {
+      .nav { height: 70px; }
+      .nav-link { display: none; }
+      .logo { font-size: 22px; }
+      .nav-cta { padding: 10px 13px; font-size: 11px; }
+      .hero {
+        min-height: auto;
+        padding: 65px 0 55px;
+        grid-template-columns: 1fr;
+        gap: 45px;
+      }
+      h1 { font-size: clamp(46px, 12vw, 66px); }
+      .intro { font-size: 14px; }
+      .visual { min-height: 350px; }
+      .orb { width: 255px; height: 255px; }
+      .envelope { height: 175px; }
+      .steps { grid-template-columns: 1fr; }
+      .step { padding: 24px; }
+      .section { padding: 65px 5%; }
+      .final-cta { margin-top: 45px; }
+      footer { flex-direction: column; text-align: center; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: .01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
 </head>
 <body>
-<div class="ambient ambient-one"></div><div class="ambient ambient-two"></div>
-<header class="topbar">
-  <a class="brand" href="/" aria-label="LoveEnvelope главная"><span class="brand-mark">♡</span><span>LoveEnvelope</span></a>
-  <a class="top-link" href="#how">Как это работает</a>
-</header>
-<main>
-  <section class="hero">
-    <div class="eyebrow"><span class="eyebrow-dot"></span> Маленькие сайты с большими чувствами</div>
-    <h1>Скажи это<br><em>красиво.</em></h1>
-    <p class="hero-copy">Создай личный конверт для извинения, поздравления или приглашения на свидание. Поделись одной ссылкой — и пусть момент станет особенным.</p>
-    <a class="primary-btn" href="#creator">Создать конверт <span>↗</span></a>
-    <div class="hero-note"><span>✦</span> Бесплатно · Без регистрации · С телефона</div>
-    <div class="hero-art" aria-hidden="true">
-      <div class="orbit orbit-a"></div><div class="orbit orbit-b"></div>
-      <div class="floating-heart heart-a">♡</div><div class="floating-heart heart-b">✦</div>
-      <div class="envelope-illustration"><div class="env-back"></div><div class="env-paper"><span class="paper-line long"></span><span class="paper-line"></span><span class="paper-line short"></span><span class="paper-heart">♡</span></div><div class="env-front"></div><div class="wax-seal">♡</div></div>
-      <div class="art-caption">a little note, just for you</div>
-    </div>
-  </section>
+  <header class="nav">
+    <a class="logo" href="/">Love<span>Envelope</span></a>
+    <a class="nav-link" href="#how">Как это работает</a>
+    <a class="nav-cta" href="#create">Создать приглашение ↗</a>
+  </header>
 
-  <section class="creator section-wrap" id="creator">
-    <div class="section-heading"><div><div class="eyebrow">ТВОЯ ИСТОРИЯ</div><h2>Создай своё послание</h2></div><span class="step-label">01 / 03</span></div>
-    <div class="builder-grid">
-      <form id="letter-form" class="editor-panel">
-        <label class="field-label" for="occasion">Выбери повод</label>
-        <div class="occasion-grid" id="occasion-grid">
-          <button type="button" class="occasion active" data-kind="sorry"><span>♡</span>Извинение</button>
-          <button type="button" class="occasion" data-kind="birthday"><span>✧</span>Поздравление</button>
-          <button type="button" class="occasion" data-kind="date"><span>☾</span>Свидание</button>
-          <button type="button" class="occasion" data-kind="love"><span>♥</span>Признание</button>
-          <button type="button" class="occasion" data-kind="support"><span>☼</span>Поддержка</button>
-          <button type="button" class="occasion" data-kind="custom"><span>✎</span>Своё</button>
+  <main>
+    <section class="hero">
+      <div>
+        <div class="eyebrow">A little thing, a big feeling</div>
+        <h1>Скажи это<br> <em>красиво.</em></h1>
+        <p class="intro">
+          Иногда одно маленькое письмо может сказать больше тысячи слов.
+          Создай особенное приглашение для человека, который делает твой мир теплее.
+        </p>
+        <div class="actions">
+          <a class="btn btn-primary" href="#create">Создать приглашение&nbsp; ↗</a>
+          <a class="btn btn-secondary" href="#how">Узнать больше</a>
         </div>
-        <label class="field-label" for="theme">Стиль конверта</label>
-        <div class="theme-grid">
-          <button type="button" class="theme-option active" data-theme="noir"><span class="swatch swatch-noir"></span><span><b>Ночная роза</b><small>Бордовый · золото</small></span></button>
-          <button type="button" class="theme-option" data-theme="blush"><span class="swatch swatch-blush"></span><span><b>Нежность</b><small>Розовый · кремовый</small></span></button>
-          <button type="button" class="theme-option" data-theme="garden"><span class="swatch swatch-garden"></span><span><b>Сад</b><small>Зелёный · цветы</small></span></button>
-          <button type="button" class="theme-option" data-theme="sky"><span class="swatch swatch-sky"></span><span><b>Лунный свет</b><small>Синий · серебро</small></span></button>
-        </div>
-        <div class="two-fields">
-          <div><label class="field-label" for="to">Кому</label><input id="to" maxlength="60" placeholder="Например, Алина"></div>
-          <div><label class="field-label" for="from">От кого</label><input id="from" maxlength="60" placeholder="Твоё имя"></div>
-        </div>
-        <label class="field-label" for="title">Заголовок письма</label><input id="title" maxlength="90" value="Прости меня, пожалуйста">
-        <label class="field-label" for="message">Текст послания</label>
-        <textarea id="message" maxlength="2500" rows="6" placeholder="Напиши здесь то, что действительно хочешь сказать…">Я понимаю, что мог(ла) сделать тебе больно, и мне искренне жаль. Я не хочу оправдываться — хочу услышать тебя и постараться всё исправить. Ты важен(важна) для меня, и я надеюсь, что однажды мы сможем спокойно поговорить. Прости меня, если сможешь.</textarea>
-        <div class="two-fields">
-          <div><label class="field-label" for="signature">Подпись</label><input id="signature" maxlength="80" placeholder="Обнимаю, …"></div>
-          <div><label class="field-label" for="music">Звук</label><select id="music"><option value="off">Без звука</option><option value="chime">Нежный звон при открытии</option><option value="ambient">Мягкая мелодия (генеративная)</option></select></div>
-        </div>
-        <div class="custom-note"><span>✦</span><span>Можно менять текст, имя, стиль и звук. Пожалуйста, добавляй только то, чем комфортно делиться.</span></div>
-        <button class="primary-btn wide" id="create-btn" type="submit">Создать публичную ссылку <span>↗</span></button>
-        <p class="form-status" id="form-status" role="status"></p>
-      </form>
+        <p class="note">Лично. Красиво. Только для вашего человека.</p>
+      </div>
 
-      <aside class="preview-panel">
-        <div class="preview-top"><span>ПРЕДПРОСМОТР</span><span class="live-dot">● LIVE</span></div>
-        <div class="preview-stage" id="preview-stage" data-theme="noir">
-          <div class="preview-stars"></div>
-          <div class="preview-small">A LITTLE NOTE FOR YOU</div>
-          <button type="button" class="preview-envelope" id="preview-envelope" aria-label="Открыть предпросмотр конверта">
-            <span class="preview-paper"><b id="preview-title">Прости меня, пожалуйста</b><small id="preview-to">для особенного человека</small></span>
-            <span class="preview-flap"></span><span class="preview-body"></span><span class="preview-seal">♡</span>
-          </button>
-          <p class="preview-hint" id="preview-hint">Нажми на конверт, чтобы открыть</p>
-          <div class="preview-decoration">✧　♡　✧</div>
+      <div class="visual" aria-label="Романтический конверт">
+        <div class="orb"></div>
+        <span class="floating heart-one">♡</span>
+        <span class="floating heart-two">✦</span>
+        <span class="floating heart-three">♡</span>
+        <div class="envelope">
+          <div class="seal">♥</div>
         </div>
-        <div class="preview-bottom"><span><span class="tiny-lock">♡</span> Личное послание</span><span>mobile friendly</span></div>
-      </aside>
-    </div>
-  </section>
+        <div class="visual-caption">A letter made just for you</div>
+      </div>
+    </section>
 
-  <section class="how section-wrap" id="how">
-    <div class="eyebrow">ПРОСТО И КРАСИВО</div><h2>Три шага до особенного момента</h2>
-    <div class="how-grid">
-      <article><span class="how-number">01</span><div class="how-icon">✎</div><h3>Создай</h3><p>Выбери повод, оформление и напиши свои слова.</p></article>
-      <article><span class="how-number">02</span><div class="how-icon">♡</div><h3>Поделись</h3><p>Получишь отдельную ссылку, которую можно отправить в любой чат.</p></article>
-      <article><span class="how-number">03</span><div class="how-icon">✧</div><h3>Удиви</h3><p>Получатель откроет конверт прямо в браузере — даже с телефона.</p></article>
-    </div>
-  </section>
-</main>
-<footer><a class="brand footer-brand" href="/"><span class="brand-mark">♡</span><span>LoveEnvelope</span></a><p>Создано, чтобы важные слова было легче сказать.</p><span class="footer-heart">♥</span></footer>
-<div class="toast" id="toast" role="status"></div>
-<script src="/app.js"></script>
+    <section class="section" id="how">
+      <div class="section-inner">
+        <div class="section-heading">
+          <div class="eyebrow">Three little steps</div>
+          <h2>Твои чувства. Твои правила.</h2>
+          <p>Без сложных настроек. Просто создай момент, который захочется запомнить.</p>
+        </div>
+        <div class="steps">
+          <article class="step">
+            <div class="step-num">01</div>
+            <h3>Создай письмо</h3>
+            <p>Выбери повод, напиши личное сообщение и добавь детали вашей встречи.</p>
+          </article>
+          <article class="step">
+            <div class="step-num">02</div>
+            <h3>Добавь магию</h3>
+            <p>Подбери красивое оформление, чтобы даже открытие письма стало событием.</p>
+          </article>
+          <article class="step">
+            <div class="step-num">03</div>
+            <h3>Отправь ссылку</h3>
+            <p>Поделись приглашением в мессенджере и пусть начинается ваша история.</p>
+          </article>
+        </div>
+
+        <div class="final-cta" id="create">
+          <div class="eyebrow">Your moment starts here</div>
+          <h2>Есть кое-что, что ты хочешь сказать?</h2>
+          <p>Сделай это по-особенному.</p>
+          <a class="btn btn-primary" href="letter.html">Начать создавать&nbsp; ↗</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <a class="logo" href="/">Love<span>Envelope</span></a>
+    <span>
+    <span>
+  </footer>
 </body>
 </html>
