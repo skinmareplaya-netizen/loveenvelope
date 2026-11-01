@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#20131e">
+<meta name="description" content="LoveEnvelope — создавай красивые цифровые конверты с письмами, поздравлениями и приглашениями.">
+<title>LoveEnvelope — твои чувства в одном конверте</title>
+<link rel="stylesheet" href="/styles.css"><link rel="stylesheet" href="/styles-extra.css">
+</head>
+<body>
+<div class="ambient ambient-one"></div><div class="ambient ambient-two"></div>
+<header class="topbar">
+  <a class="brand" href="/" aria-label="LoveEnvelope главная"><span class="brand-mark">♡</span><span>LoveEnvelope</span></a>
+  <a class="top-link" href="#how">Как это работает</a>
+</header>
+<main>
+  <section class="hero">
+    <div class="eyebrow"><span class="eyebrow-dot"></span> Маленькие сайты с большими чувствами</div>
+    <h1>Скажи это<br><em>красиво.</em></h1>
+    <p class="hero-copy">Создай личный конверт для извинения, поздравления или приглашения на свидание. Поделись одной ссылкой — и пусть момент станет особенным.</p>
+    <a class="primary-btn" href="#creator">Создать конверт <span>↗</span></a>
+    <div class="hero-note"><span>✦</span> Бесплатно · Без регистрации · С телефона</div>
+    <div class="hero-art" aria-hidden="true">
+      <div class="orbit orbit-a"></div><div class="orbit orbit-b"></div>
+      <div class="floating-heart heart-a">♡</div><div class="floating-heart heart-b">✦</div>
+      <div class="envelope-illustration"><div class="env-back"></div><div class="env-paper"><span class="paper-line long"></span><span class="paper-line"></span><span class="paper-line short"></span><span class="paper-heart">♡</span></div><div class="env-front"></div><div class="wax-seal">♡</div></div>
+      <div class="art-caption">a little note, just for you</div>
+    </div>
+  </section>
+
+  <section class="creator section-wrap" id="creator">
+    <div class="section-heading"><div><div class="eyebrow">ТВОЯ ИСТОРИЯ</div><h2>Создай своё послание</h2></div><span class="step-label">01 / 03</span></div>
+    <div class="builder-grid">
+      <form id="letter-form" class="editor-panel">
+        <label class="field-label" for="occasion">Выбери повод</label>
+        <div class="occasion-grid" id="occasion-grid">
+          <button type="button" class="occasion active" data-kind="sorry"><span>♡</span>Извинение</button>
+          <button type="button" class="occasion" data-kind="birthday"><span>✧</span>Поздравление</button>
+          <button type="button" class="occasion" data-kind="date"><span>☾</span>Свидание</button>
+          <button type="button" class="occasion" data-kind="love"><span>♥</span>Признание</button>
+          <button type="button" class="occasion" data-kind="support"><span>☼</span>Поддержка</button>
+          <button type="button" class="occasion" data-kind="custom"><span>✎</span>Своё</button>
+        </div>
+        <label class="field-label" for="theme">Стиль конверта</label>
+        <div class="theme-grid">
+          <button type="button" class="theme-option active" data-theme="noir"><span class="swatch swatch-noir"></span><span><b>Ночная роза</b><small>Бордовый · золото</small></span></button>
+          <button type="button" class="theme-option" data-theme="blush"><span class="swatch swatch-blush"></span><span><b>Нежность</b><small>Розовый · кремовый</small></span></button>
+          <button type="button" class="theme-option" data-theme="garden"><span class="swatch swatch-garden"></span><span><b>Сад</b><small>Зелёный · цветы</small></span></button>
+          <button type="button" class="theme-option" data-theme="sky"><span class="swatch swatch-sky"></span><span><b>Лунный свет</b><small>Синий · серебро</small></span></button>
+        </div>
+        <div class="two-fields">
+          <div><label class="field-label" for="to">Кому</label><input id="to" maxlength="60" placeholder="Например, Алина"></div>
+          <div><label class="field-label" for="from">От кого</label><input id="from" maxlength="60" placeholder="Твоё имя"></div>
+        </div>
+        <label class="field-label" for="title">Заголовок письма</label><input id="title" maxlength="90" value="Прости меня, пожалуйста">
+        <label class="field-label" for="message">Текст послания</label>
+        <textarea id="message" maxlength="2500" rows="6" placeholder="Напиши здесь то, что действительно хочешь сказать…">Я понимаю, что мог(ла) сделать тебе больно, и мне искренне жаль. Я не хочу оправдываться — хочу услышать тебя и постараться всё исправить. Ты важен(важна) для меня, и я надеюсь, что однажды мы сможем спокойно поговорить. Прости меня, если сможешь.</textarea>
+        <div class="two-fields">
+          <div><label class="field-label" for="signature">Подпись</label><input id="signature" maxlength="80" placeholder="Обнимаю, …"></div>
+          <div><label class="field-label" for="music">Звук</label><select id="music"><option value="off">Без звука</option><option value="chime">Нежный звон при открытии</option><option value="ambient">Мягкая мелодия (генеративная)</option></select></div>
+        </div>
+        <div class="custom-note"><span>✦</span><span>Можно менять текст, имя, стиль и звук. Пожалуйста, добавляй только то, чем комфортно делиться.</span></div>
+        <button class="primary-btn wide" id="create-btn" type="submit">Создать публичную ссылку <span>↗</span></button>
+        <p class="form-status" id="form-status" role="status"></p>
+      </form>
+
+      <aside class="preview-panel">
+        <div class="preview-top"><span>ПРЕДПРОСМОТР</span><span class="live-dot">● LIVE</span></div>
+        <div class="preview-stage" id="preview-stage" data-theme="noir">
+          <div class="preview-stars"></div>
+          <div class="preview-small">A LITTLE NOTE FOR YOU</div>
+          <button type="button" class="preview-envelope" id="preview-envelope" aria-label="Открыть предпросмотр конверта">
+            <span class="preview-paper"><b id="preview-title">Прости меня, пожалуйста</b><small id="preview-to">для особенного человека</small></span>
+            <span class="preview-flap"></span><span class="preview-body"></span><span class="preview-seal">♡</span>
+          </button>
+          <p class="preview-hint" id="preview-hint">Нажми на конверт, чтобы открыть</p>
+          <div class="preview-decoration">✧　♡　✧</div>
+        </div>
+        <div class="preview-bottom"><span><span class="tiny-lock">♡</span> Личное послание</span><span>mobile friendly</span></div>
+      </aside>
+    </div>
+  </section>
+
+  <section class="how section-wrap" id="how">
+    <div class="eyebrow">ПРОСТО И КРАСИВО</div><h2>Три шага до особенного момента</h2>
+    <div class="how-grid">
+      <article><span class="how-number">01</span><div class="how-icon">✎</div><h3>Создай</h3><p>Выбери повод, оформление и напиши свои слова.</p></article>
+      <article><span class="how-number">02</span><div class="how-icon">♡</div><h3>Поделись</h3><p>Получишь отдельную ссылку, которую можно отправить в любой чат.</p></article>
+      <article><span class="how-number">03</span><div class="how-icon">✧</div><h3>Удиви</h3><p>Получатель откроет конверт прямо в браузере — даже с телефона.</p></article>
+    </div>
+  </section>
+</main>
+<footer><a class="brand footer-brand" href="/"><span class="brand-mark">♡</span><span>LoveEnvelope</span></a><p>Создано, чтобы важные слова было легче сказать.</p><span class="footer-heart">♥</span></footer>
+<div class="toast" id="toast" role="status"></div>
+<script src="/app.js"></script>
+</body>
+</html>

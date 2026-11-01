@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#20131e"><title>Послание для тебя — LoveEnvelope</title><link rel="stylesheet" href="/styles.css"><link rel="stylesheet" href="/styles-extra.css"></head>
+<body class="letter-page letter-theme-noir">
+<div class="letter-shell" id="letter-shell"><div class="letter-brand">♡ LoveEnvelope</div><button class="letter-open-btn" id="open-letter" hidden>Открыть послание ♡</button><article class="letter-card" id="letter-card"><div class="letter-kicker">A LITTLE NOTE FOR YOU</div><h1 id="letter-title">Загружаем послание…</h1><div class="letter-to" id="letter-to"></div><div class="letter-message" id="letter-message"></div><div class="letter-sign" id="letter-sign"></div></article><div class="letter-footer">Создано с теплом на LoveEnvelope ♡</div></div>
+<script>
+(async function(){
+ const id=location.pathname.split('/').filter(Boolean)[1];
+ const shell=document.getElementById('letter-shell');
+ const openButton=document.getElementById('open-letter');
+ const safe=(v)=>typeof v==='string'?v:'';
+ try{
+  const r=await fetch('/api/envelopes/'+encodeURIComponent(id));
+  if(!r.ok) throw new Error('Это послание не найдено или ссылка неверна.');
+  const d=await r.json();
+  document.body.className='letter-page letter-theme-'+(['noir','blush','garden','sky'].includes(d.theme)?d.theme:'noir');
+  document.title=(safe(d.title)||'Послание для тебя')+' — LoveEnvelope';
+  document.getElementById('letter-title').textContent=safe(d.title)||'Послание для тебя';
+  document.getElementById('letter-to').textContent=d.recipient?'для '+d.recipient:'';
+  document.getElementById('letter-message').textContent=safe(d.message);
+  document.getElementById('letter-sign').textContent=safe(d.signature)||(d.sender?'С теплом, '+d.sender:'');
+  openButton.hidden=false;
+  openButton.addEventListener('click',()=>{
+   document.getElementById('letter-card').animate([{transform:'translateY(12px) scale(.98)',opacity:.6},{transform:'translateY(0) scale(1)',opacity:1}],{duration:650,easing:'cubic-bezier(.2,.8,.2,1)'});
+   openButton.hidden=true;
+   if(d.music!=='off'){
+    try{
+     const C=window.AudioContext||window.webkitAudioContext;if(!C)return;
+     const c=new C();[880,1174].forEach((f,i)=>{const o=c.createOscillator(),g=c.createGain();o.type='sine';o.frequency.value=f;g.gain.setValueAtTime(.0001,c.currentTime+i*.14);g.gain.exponentialRampToValueAtTime(.04,c.currentTime+i*.14+.04);g.gain.exponentialRampToValueAtTime(.0001,c.currentTime+i*.14+.5);o.connect(g);g.connect(c.destination);o.start(c.currentTime+i*.14);o.stop(c.currentTime+i*.14+.55);});
+    }catch(e){}
+   }
+   for(let i=0;i<12;i++){const p=document.createElement('span');p.className='particle';p.textContent=['♡','✦','♥','✧'][Math.floor(Math.random()*4)];p.style.left=(10+Math.random()*80)+'%';p.style.top=(35+Math.random()*50)+'%';p.style.animationDelay=(Math.random()*.5)+'s';shell.appendChild(p);setTimeout(()=>p.remove(),2800);}
+  },{once:true});
+ }catch(e){
+  shell.innerHTML='<div class="letter-error"><div style="font-size:42px">♡</div><h1>Послание пока не найдено</h1><p>'+e.message+'</p><p><a href="/">Создать свой конверт на LoveEnvelope</a></p></div>';
+ }
+})();
+</script></body></html>
